@@ -7,7 +7,7 @@ You must have Docker installed and running properly.
 
 clone this repo using git
 
-`git clone url MyApp`
+`git clone git@gitlab.wayox.net:util/docker-lamp.git MyApp`
 
 cd into your app
 
