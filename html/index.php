@@ -20,7 +20,7 @@ if ($conn->connect_error) {
 }
 
 // database name
-$myDatabase = 'MY_DATABASE';
+$myDatabase = 'MYSQL_DATABASE';
 // check the mysql connection status
 
 $conn = new mysqli($host, $user, $pass, $myDatabase);
