@@ -35,15 +35,36 @@ Check the containers are properly running
 
 `docker ps`
 
-navigate with your browser to the phpmyadmin site
+#### Updating your hosts file
+MacOS & Linux
+In your terminal, run
+```sh
+sudo nano /etc/hosts
+```
+PC
+```
+Open [SystemRoot]\system32\drivers\etc\hosts and edit the file with your text editor with admin privileges.
+```
+Add the following lines at the end of this hosts file
+```
+127.0.0.1     myapp.ly
+```
+MacOS & Linux: 'Ctrl+O' then 'y' to save and 'Ctrl+X' to quit nano.
+PC: Save and quit your editor.
+
+After these steps, you may need to flush your dns.
+
+Navigate with your browser to the phpmyadmin site
 
 `http://myapp.ly:8080`
 
-login with the credentials located in the .env file (request a copy from admins)
+If this URL doesn't work, replace myapp.ly with localhost or 127.0.0.1 
 
-Select the MYSQL_DATABASE and click on the sql item
+Login with the credentials located in the .env file (request a copy from admins)
 
-run the following query
+Select the MYSQL_DATABASE and click on the sql menu item
+
+Run the following query
 
 ```sql
 drop table if exists `users`;
@@ -65,4 +86,13 @@ Finally, navigate with your browser to the app home page.
 
 `http://myapp.ly`
 
-Check it is properly working
+Check it is properly working.
+
+#### That's it! Welcome to your docker LAMP Environment.
+
+### Recommendations
+
+If you are starting a project using this LAMP env, remove the .git folder and create your fresh new repo. This will ensure you won't push to the original repo all of your work.
+
+Happy coding!
+
