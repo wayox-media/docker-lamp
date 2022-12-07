@@ -1,6 +1,12 @@
 ## PHP LAMP FOR DOCKER
 A simple Docker container to run php + mariaDb + Apache
 
+### PreRequisites
+
+ * git
+ * ssh
+ * docker
+
 ### Installation
 
 You must have Docker installed and running properly.
@@ -12,6 +18,8 @@ clone this repo using git
 cd into your app
 
 `cd MyApp`
+
+get a copy of the actual .env file form admins
 
 run docker build
 
