@@ -1,5 +1,9 @@
 ### App
 .env
+html/logs
 
 ### IDE
 .idea
+
+## OS
+.DS_Store
