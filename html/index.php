@@ -33,10 +33,11 @@ if ($result = $conn->query($sql)) {
 		$users[] = $data;
 	}
 }
-
+<center>
 foreach ($users as $user) {
 	echo "<br>";
 	echo $user->username . " " . $user->password;
 	echo "<br>";
 }
+</center>
 phpinfo();
