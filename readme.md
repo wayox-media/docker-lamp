@@ -1,41 +1,51 @@
-## PHP LAMP FOR DOCKER
-A simple Docker container to run php + mariaDb + Apache
+# PHP LAMP FOR DOCKER
+A simple Docker container to run php + Apache
 
-### PreRequisites
+## PreRequisites
 
  * git
  * ssh
  * docker
 
-### Installation
+## Installation
 
 You must have Docker installed and running properly.
 
 clone this repo using git
 
-`git clone git@gitlab.wayox.net:util/docker-lamp.git MyApp`
+```sh
+git clone git@github.com:wayox-media/docker-lamp.git MyApp
+```
 
 cd into your app
 
-`cd MyApp`
+```sh
+cd MyApp
+```
 
 get a copy of the actual .env file form admins
 
 run docker build
 
-`docker compose --env-file .env build`
+```sh
+docker compose --env-file .env build
+```
 
 this may take some minutes if this is your first install, images are been downloaded.
 
 Now, bring up the environment.
 
-`docker-compose up -d`
+```sh
+docker-compose up -d
+```
 
 Check the containers are properly running
 
-`docker ps`
+```sh
+docker ps
+```
 
-#### Updating your hosts file
+### Updating your hosts file
 MacOS & Linux
 In your terminal, run
 ```sh
@@ -86,12 +96,19 @@ Finally, navigate with your browser to the app home page.
 
 `http://myapp.ly`
 
+If this URL doesn't work, replace myapp.ly with localhost or 127.0.0.1
+
 Check it is properly working.
 
-#### That's it! Welcome to your docker LAMP Environment.
+### That's it! Welcome to your docker LAMP Environment.
 
-### Recommendations
+## Recommendations
 
+to log into the container, run
+
+```sh
+docker exec -it myApp bash
+```
 If you are starting a project using this LAMP env, remove the .git folder and create your fresh new repo. This will ensure you won't push to the original repo all of your work.
 
 Happy coding!

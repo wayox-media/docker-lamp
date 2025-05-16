@@ -1,23 +1,64 @@
-FROM php:8.0-apache
+FROM php:8.2-apache
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    NODE_VERSION=18.17.0 \
+    NVM_DIR=/root/.nvm \
+    PATH="/root/.nvm/versions/node/v18.17.0/bin/:$PATH"
 
-#RUN docker-html-ext-install mysqli && docker-html-ext-enable mysqli
-RUN apt-get update && apt-get upgrade -y && apt-get install -qy curl \
-			git \
-			libzip-dev \
-			mariadb-client
+# Update and install dependencies
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y --no-install-recommends \
+        curl \
+        git \
+        nano \
+        zip \
+        unzip \
+        libzip-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libxml2-utils \
+        mariadb-client \
+        ca-certificates \
+        gnupg \
+        lsb-release && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) \
+        gd \
+        mysqli \
+        pdo \
+        pdo_mysql && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer
+# Composer installation
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
 
-RUN docker-php-ext-install mysqli \
-	pdo \
-	pdo_mysql
+# Install PECL extensions conditionally
+RUN pecl install zip xdebug && \
+    docker-php-ext-enable zip xdebug
 
-RUN pecl install zip && docker-php-ext-install zip
+# Apache config
+COPY ./docker/default.conf /etc/apache2/sites-available/myapp.test.conf
+RUN a2ensite myapp.test
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
-
+# PHP config
 COPY ./docker/docker-php-ext-xdebug3-ext.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug-ext.ini
 COPY ./docker/docker-php-extra.ini /usr/local/etc/php/conf.d/docker-php-extra.ini
 
+# Utilities
+COPY ./docker/bash /root/bash
+COPY ./docker/firstRun.sh /root/firstRun.sh
+
+# Install Node via NVM
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash && \
+    . "$NVM_DIR/nvm.sh" && \
+    nvm install $NODE_VERSION && \
+    nvm use $NODE_VERSION && \
+    nvm alias default $NODE_VERSION && \
+    npm install -g npm@10.2.1
+
+# Confirm versions
+RUN node -v && npm -v
+RUN bash /root/firstRun.sh
