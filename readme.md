@@ -107,7 +107,7 @@ Check it is properly working.
 to log into the container, run
 
 ```sh
-docker exec -it deepdevs bash
+docker exec -it myApp bash
 ```
 If you are starting a project using this LAMP env, remove the .git folder and create your fresh new repo. This will ensure you won't push to the original repo all of your work.
 
